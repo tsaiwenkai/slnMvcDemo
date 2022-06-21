@@ -1,0 +1,24 @@
+﻿@model prjMvcDemo.Models.CCustomer
+@{
+    ViewBag.Title = "showById";
+}
+
+<h2>showByid</h2>
+
+<p>
+    @{ if (Model == null)
+        {
+            <h2>沒有資料!!</h2>
+            <img src="~/image/3.jpg" width="200" height="160" />
+        }
+        else
+        {
+            <h2>@Model.fName</h2>
+            <img src="~/image/@(Model.fId).jpg" width="200" height="160" />
+            <br />
+            @Model.fPhone@:/ @Model.fEmail
+        }
+    }
+
+</p>
+
