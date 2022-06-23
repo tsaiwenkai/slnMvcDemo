@@ -21,7 +21,27 @@ namespace prjMvcDemo.Controllers
             Response.End();
             return "";
         }
+        public ActionResult demoForm()
+        {
+            ViewBag.Ans = "?";
+            ViewBag.a = " ";
+            ViewBag.b = " ";
+            ViewBag.c = " ";
+            if (!string.IsNullOrEmpty(Request.Form["txtA"]))
+            {
+                int a = Convert.ToInt32(Request.Form["txtA"]);
+                int b = Convert.ToInt32(Request.Form["txtB"]);
+                int c = Convert.ToInt32(Request.Form["txtC"]);
+                ViewBag.c = c.ToString();
+                ViewBag.a = a.ToString();
+                ViewBag.b = b.ToString();
+                double r1 = (-b + Math.Sqrt(b * b - 4 * a * c)) / (2 * a);
+                double r2 = (-b - Math.Sqrt(b * b - 4 * a * c)) / (2 * a);
 
+                ViewBag.Ans = $"{Math.Round(r1,2)},{Math.Round(r2,2)}";
+            }
+            return View();
+        }
 
         public string demoRequest()
         {
@@ -103,6 +123,17 @@ namespace prjMvcDemo.Controllers
                 return "沒有指定PK";
             (new CCustomerFactory()).delete((int)id);
             return "刪除成功";
+        }
+
+        public string testqueryById(int?id)
+        {
+
+            return "客戶名稱:" + (new CCustomerFactory()).queryById((int)id).fName;
+        }
+        public string testqueryAll()
+        {
+
+            return "客戶人數:" + (new CCustomerFactory()).queryAll().Count(); 
         }
         public string Update()
         {

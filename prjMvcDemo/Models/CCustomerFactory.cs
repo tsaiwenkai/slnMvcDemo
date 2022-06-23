@@ -45,6 +45,18 @@ namespace prjMvcDemo.Models
             databaseCRUD(sql, paras);
 
         }
+
+        internal List<CCustomer> queryByKeyword(string keyword)
+        {
+            string sql = "select* from tCustomer where fName like @K_Keyword ";
+            sql+= " or fPhone like @K_Keyword ";
+            sql += " or fAddress like @K_Keyword ";
+            sql += " or fEmail like @K_Keyword ";
+            List<SqlParameter> paras = new List<SqlParameter>();
+            paras.Add(new SqlParameter("K_Keyword", "%"+(object)keyword+"%"));
+            return queryBySql(sql, paras);      
+        }
+
         public void delete(int id)
         {
             List<SqlParameter> paras = new List<SqlParameter>();
@@ -101,7 +113,47 @@ namespace prjMvcDemo.Models
             sql += ")";
             databaseCRUD(sql, paras);
         }
+        public CCustomer queryById(int id)
+        {
+            string sql= "select* from tCustomer where fId=@K_Id";
+            List<SqlParameter> paras = new List<SqlParameter>();
+            paras.Add(new SqlParameter("@K_Id", (object)id));
+            var list = queryBySql(sql, paras);
+            if (list.Count == 0)
+                return null;
+            return list[0];
+        }
+        public List<CCustomer> queryAll()
+        {
+            return queryBySql("select*from tCustomer", null);
+        }
+        private List<CCustomer> queryBySql(string sql,List<SqlParameter>paras)
+        {
+            List<CCustomer> list = new List<CCustomer>();
+            SqlConnection con = new SqlConnection();
+            con.ConnectionString = @"Data Source=.;Initial Catalog=dbDemo;Integrated Security=True";
+            con.Open();
+            SqlCommand com = new SqlCommand(sql, con);
+            if (paras != null)
+                foreach (SqlParameter p in paras)
+                    com.Parameters.Add(p);
 
+            SqlDataReader reader= com.ExecuteReader();
+            while (reader.Read())
+            {
+                list.Add(new CCustomer()
+                {
+                    fId=(int)reader["fId"],
+                    fName = reader["fName"].ToString(),
+                    fAddress = reader["fAddress"].ToString(),
+                    fEmail = reader["fEmail"].ToString(),
+                    fPassword = reader["fPassword"].ToString(),
+                    fPhone = reader["fPhone"].ToString(),
+                });
+            }
+            con.Close();
+            return list;           
+        }
         private static void databaseCRUD(string sq1 , List<SqlParameter> paras)
         {
             SqlConnection con = new SqlConnection();
