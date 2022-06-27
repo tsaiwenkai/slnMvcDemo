@@ -11,6 +11,17 @@ namespace prjMvcDemo.Controllers
 {
     public class AController : Controller
     {
+        public ActionResult demoFileUpLoad()
+        {
+            return View();
+        }
+        [HttpPost]
+        public ActionResult demoFileUpLoad(HttpPostedFileBase photo)
+        {
+            photo.SaveAs(@"C:\Users\Student\Desktop\MVC\slnMvcDemo\prjMvcDemo\image\test.jpg");
+            return View();
+        }
+
         public string demoResponse()
         {
             //觸發事件都是由Response開始(客戶端為Request
@@ -20,6 +31,40 @@ namespace prjMvcDemo.Controllers
             Response.WriteFile(@"C:\QN\01.jpg");
             Response.End();
             return "";
+        }
+        //static int count = 0;  //如果使用STATIC的話會存在記憶體中不會被刪除,但是不會被分類是否為不同人使用ex:N人點100次就會Nx100
+        
+        //public ActionResult showCount()
+        //{
+        //    count++;
+        //    ViewBag.con = count;
+        //    return View();
+        //}
+        public ActionResult showCountByCookie()
+        {
+            int count=0;
+            HttpCookie x = Request.Cookies["kk"];
+
+            if (x != null)
+                count = Convert.ToInt32(x.Value);
+            count++;
+            x = new HttpCookie ("kk");
+            x.Value = count.ToString();
+            x.Expires = DateTime.Now.AddDays(20);
+            Response.Cookies.Add(x);
+
+            ViewBag.con = count;
+            return View();
+        }
+        public ActionResult showCountBySession()
+        {
+            int count = 0;
+            if (Session["kk"] != null)
+                count = (int)Session["kk"];
+            count++;
+            Session["kk"] = count;
+            ViewBag.con = count;
+            return View();
         }
         public ActionResult demoForm()
         {

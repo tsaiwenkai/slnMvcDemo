@@ -46,6 +46,17 @@ namespace prjMvcDemo.Models
 
         }
 
+        internal CCustomer queryByEmail(string emil)
+        {
+            string sql = "select* from tCustomer where fEmail=@K_Email";
+            List<SqlParameter> paras = new List<SqlParameter>();
+            paras.Add(new SqlParameter("@K_Email", (object)emil));
+            var list = queryBySql(sql, paras);
+            if (list.Count == 0)
+                return null;
+            return list[0];
+        }
+
         internal List<CCustomer> queryByKeyword(string keyword)
         {
             string sql = "select* from tCustomer where fName like @K_Keyword ";

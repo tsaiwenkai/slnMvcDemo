@@ -20,13 +20,14 @@ namespace prjMvcDemo
         [DisplayName("產品名稱")]
         [Required(ErrorMessage = "此欄位為必填")]
         public string fName { get; set; }
-     
+
         [DisplayName("產品成本")]
         public Nullable<decimal> fCost { get; set; }
-        
+
         public Nullable<int> fQty { get; set; }
         [DisplayName("產品售價")]
         [Required(ErrorMessage = "此欄位為必填")]
         public Nullable<decimal> fPrice { get; set; }
+        public string fImage { get; set; }
     }
 }
