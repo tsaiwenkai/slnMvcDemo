@@ -13,6 +13,7 @@ namespace prjMvcDemo
     using System.Collections.Generic;
     using System.ComponentModel;
     using System.ComponentModel.DataAnnotations;
+    using System.Web;
 
     public partial class tProduct
     {
@@ -29,5 +30,6 @@ namespace prjMvcDemo
         [Required(ErrorMessage = "此欄位為必填")]
         public Nullable<decimal> fPrice { get; set; }
         public string fImage { get; set; }
+        public HttpPostedFileBase photo { get; set; }
     }
 }

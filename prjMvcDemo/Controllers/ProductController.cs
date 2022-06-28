@@ -54,6 +54,12 @@ namespace prjMvcDemo.Controllers
         public ActionResult Edit(tProduct p)
         {
             var q = da.tProduct.FirstOrDefault(x => x.fId == p.fId);
+            if (p.photo != null)
+            {
+                string pName = Guid.NewGuid().ToString() + ".jpg";
+                p.photo.SaveAs(Server.MapPath("../../image/"+pName));
+                q.fImage = pName;
+            }
             q.fName = p.fName;
             q.fCost = p.fCost;
             q.fPrice = p.fPrice;
